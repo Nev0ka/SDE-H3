@@ -9,7 +9,17 @@ namespace MauiApp1.Classes
     public class CalculatorClass
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public double Result { get; set; }
+    }
+
+    public class CalculatorList
+    {
+        public List<CalculatorClass> Calculators { get; set; }
+
+        public CalculatorList()
+        {
+            Calculators = new List<CalculatorClass>();
+        }
     }
 }

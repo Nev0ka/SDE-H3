@@ -10,33 +10,51 @@ namespace MauiApp1.ViewModels
 {
     public partial class MainPageViewModel : ObservableObject
     {
-        private readonly CalculatorProvider _calculatorProvider;
+        private readonly CalculatorList _calculatorList;
 
         [ObservableProperty]
-        private ObservableCollection<CalculatorClass> calculator;
+        private ObservableCollection<CalculatorClass> calculators;
 
-        public MainPageViewModel(CalculatorProvider calculatorProvider)
+        [ObservableProperty]
+        private string name;
+
+        [ObservableProperty]
+        private CalculatorClass selectedCalculator;
+
+        private Dictionary<int, CalculatorViewModel> calculatorViewModels;
+
+        public MainPageViewModel(CalculatorList calculatorList, IServiceProvider serviceProvider)
         {
-            _calculatorProvider = calculatorProvider;
-            calculator = _calculatorProvider.calculatorClasses;
+            _calculatorList = calculatorList;
+            calculators = new ObservableCollection<CalculatorClass>(_calculatorList.Calculators);
+            calculatorViewModels = new Dictionary<int, CalculatorViewModel>();
         }
 
         [RelayCommand]
-        private async Task OpenCalculator()
+        private async Task OpenCalculator(CalculatorClass calculator)
         {
-            await Shell.Current.GoToAsync(nameof(CalculatorPage));
+            await Shell.Current.GoToAsync($"{nameof(CalculatorPage)}?Id={calculator.Id}");
         }
 
         [RelayCommand]
-        private async Task AddCalculator()
+        private void AddCalculator()
         {
-            _calculatorProvider.addCalculator();
+            var newCalculator = new CalculatorClass
+            {
+                Id = _calculatorList.Calculators.Count > 0 ? _calculatorList.Calculators.Max(c => c.Id) + 1 : 1,
+                Name = $"Calculator {_calculatorList.Calculators.Count + 1}",
+                Result = 0
+            };
+            _calculatorList.Calculators.Add(newCalculator);
+            calculators.Add(newCalculator);
         }
 
         [RelayCommand]
-        private async Task RemoveCalculator(CalculatorClass cal)
+        private void RemoveCalculator(CalculatorClass cal)
         {
-            _calculatorProvider.removeCalculator(cal);
+            _calculatorList.Calculators.Remove(cal);
+            calculators.Remove(cal);
+            calculatorViewModels.Remove(cal.Id);
         }
     }
 }

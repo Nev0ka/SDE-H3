@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Alerts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,13 +10,21 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MauiApp1.Classes;
 
 namespace MauiApp1.ViewModels
 {
+    [QueryProperty(nameof(Id), "Id")]
     public partial class CalculatorViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string _resultDisplay = string.Empty;
+        private int id;
+
+        private readonly CalculatorList _calculatorList;
+        private CalculatorClass _calculator;
+
+        [ObservableProperty]
+        private string _resultDisplay;
 
         [ObservableProperty]
         private string _expressionDisplay = string.Empty;
@@ -23,8 +32,19 @@ namespace MauiApp1.ViewModels
         [ObservableProperty]
         private int _cursorPosition;
 
-        [ObservableProperty]
-        private string _niceToast = string.Empty;
+        public CalculatorViewModel(CalculatorList calculatorList)
+        {
+            _calculatorList = calculatorList;
+        }
+
+        partial void OnIdChanged(int value)
+        {
+            _calculator = _calculatorList.Calculators.FirstOrDefault(c => c.Id == value) ?? new CalculatorClass();
+            if (_calculator.Id == value && _calculator.Result.ToString() != "0")
+            {
+                ExpressionDisplay = _calculator.Result.ToString();
+            }
+        }
 
         [RelayCommand]
         public void HandleButtonPress(string buttonText)
@@ -36,7 +56,7 @@ namespace MauiApp1.ViewModels
                 ExpressionDisplay = string.Empty;
                 ResultDisplay = string.Empty;
                 CursorPosition = 0;
-                NiceToast = string.Empty;
+                _calculator.Result = 0;
             }
             else if (buttonText == "+/-")
             {
@@ -67,9 +87,13 @@ namespace MauiApp1.ViewModels
                 TryComputeExpression();
                 if (double.TryParse(ResultDisplay, out var result))
                 {
+                    if (_calculator.Id == Id)
+                    {
+                        _calculator.Result = result;
+                    }
                     if (result == 69 || result == 80085)
                     {
-                        NiceToast = "Nice!";
+                        Toast.Make("Nice!", CommunityToolkit.Maui.Core.ToastDuration.Long, 30).Show();
                     }
                 }
                 ExpressionDisplay = ResultDisplay;
@@ -88,6 +112,16 @@ namespace MauiApp1.ViewModels
             {
                 ExpressionDisplay = InsertCharacterAtPosition(ExpressionDisplay, buttonText[0].ToString(), curPos);
                 CursorPosition = curPos + 1;
+            }
+        }
+
+        [RelayCommand]
+        public void SendResultToCalculator(int targetCalculatorId)
+        {
+            var targetCalculator = _calculatorList.Calculators.FirstOrDefault(c => c.Id == targetCalculatorId);
+            if (targetCalculator != null && double.TryParse(ResultDisplay, out var result))
+            {
+                targetCalculator.Result = result;
             }
         }
 

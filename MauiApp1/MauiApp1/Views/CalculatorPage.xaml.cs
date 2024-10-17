@@ -9,4 +9,9 @@ public partial class CalculatorPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+    }
 }

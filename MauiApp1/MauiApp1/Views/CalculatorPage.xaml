@@ -16,6 +16,7 @@
         <VerticalStackLayout>
             <Entry Text="{Binding ExpressionDisplay}" Placeholder="0" FontSize="32" HorizontalTextAlignment="End"/>
             <Label Text="{Binding ResultDisplay}" HorizontalTextAlignment="End" FontSize="20" />
+            <Label Text="{Binding Id}" HorizontalTextAlignment="End" FontSize="20" />
         </VerticalStackLayout>
 
         <Grid Grid.Row="1"
@@ -42,9 +43,7 @@
             <Button Text="DEL" Grid.Row="3" Grid.Column="1" Padding="10" />
             <Button Text="," Grid.Row="4" Grid.Column="2" Padding="10" />
             <Button Text="+/-" Grid.Row="4" Grid.Column="1" Padding="10" />
+            <Button Text="Send Result" Grid.Row="4" Grid.Column="0" Padding="10" Command="{Binding SendResultToCalculatorCommand}"/>
         </Grid>
-
-        <Label Text="{Binding NiceToast}" HorizontalTextAlignment="End" FontSize="50" />
-
     </StackLayout>
 </ContentPage>

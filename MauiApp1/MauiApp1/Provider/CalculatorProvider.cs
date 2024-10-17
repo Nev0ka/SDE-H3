@@ -12,15 +12,28 @@ namespace MauiApp1.Provider
     public class CalculatorProvider : ObservableObject
     {
         public ObservableCollection<CalculatorClass> calculatorClasses;
+        private int _nextId = 1;
 
-        public CalculatorProvider() 
+        public CalculatorProvider()
         {
             calculatorClasses = new();
         }
 
+        private (int id, string name) GenerateUniqueCalculatorDetails()
+        {
+            int id = _nextId++;
+            string name = $"Calculator {id}";
+            return (id, name);
+        }
+
         public void addCalculator()
         {
-            calculatorClasses.Add(new CalculatorClass());
+            var (id, name) = GenerateUniqueCalculatorDetails();
+            calculatorClasses.Add(new CalculatorClass
+            {
+                Id = id,
+                Name = name
+            });
         }
 
         public void removeCalculator(CalculatorClass cal)
