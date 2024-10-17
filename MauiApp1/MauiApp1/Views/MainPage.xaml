@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiApp1"
+             x:Class="MauiApp1.MainPage"
+             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModels"
+             x:DataType="viewmodel:MainPageViewModel">
+
+    <StackLayout Padding="10">
+        <Button Text="Add calculator" Command="{Binding AddCalculatorCommand}" />
+
+        <Label Text="Available Calculators" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10" />
+
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Calculator}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type x:String}">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                           BackgroundColor="Red" 
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageViewModel}}, Path=RemoveCalculatorCommand}" 
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid Padding="0,5">
+                            <Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageViewModel}}, Path=OpenCalculatorCommand}" 
+                                        CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Label Text="{Binding .}"
+                                       FontSize="14" />
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </StackLayout>
+
+</ContentPage>
