@@ -25,20 +25,5 @@ namespace MauiApp1.Provider
             string name = $"Calculator {id}";
             return (id, name);
         }
-
-        public void addCalculator()
-        {
-            var (id, name) = GenerateUniqueCalculatorDetails();
-            calculatorClasses.Add(new CalculatorClass
-            {
-                Id = id,
-                Name = name
-            });
-        }
-
-        public void removeCalculator(CalculatorClass cal)
-        {
-            calculatorClasses.Remove(cal);
-        }
     }
 }

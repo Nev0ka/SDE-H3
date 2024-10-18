@@ -46,14 +46,14 @@ namespace MauiApp1.ViewModels
                 Result = 0
             };
             _calculatorList.Calculators.Add(newCalculator);
-            calculators.Add(newCalculator);
+            Calculators.Add(newCalculator);
         }
 
         [RelayCommand]
         private void RemoveCalculator(CalculatorClass cal)
         {
             _calculatorList.Calculators.Remove(cal);
-            calculators.Remove(cal);
+            Calculators.Remove(cal);
             calculatorViewModels.Remove(cal.Id);
         }
     }

@@ -12,16 +12,16 @@ namespace MauiApp1
             {
 #if ANDROID
                            events.AddAndroid(android => android  
-                               .OnResume(activity => ShowToast("Welcome back!"))  
-                               .OnCreate((activity, bundle) => ShowToast("App opened!")));  
+                               .OnResume(activity => ShowToast("Velkommen tilbage"))  
+                               .OnCreate((activity, bundle) => ShowToast("Velkommen")));  
 #elif IOS
                            events.AddiOS(ios => ios  
-                               .OnActivated(app => ShowToast("Welcome back!"))  
-                               .FinishedLaunching((app, options) => { ShowToast("App opened!"); return true; }));  
+                               .OnActivated(app => ShowToast("Velkommen tilbage"))  
+                               .FinishedLaunching((app, options) => { ShowToast("Velkommen"); return true; }));  
 #elif WINDOWS
                 events.AddWindows(windows => windows
-                    .OnActivated((window, args) => ShowToast("Welcome back!"))
-                    .OnLaunched((app, args) => ShowToast("App opened!")));
+                    .OnActivated((window, args) => ShowToast("Velkommen tilbage"))
+                    .OnLaunched((app, args) => ShowToast("Velkommen")));
 #endif
             });
         }

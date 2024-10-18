@@ -115,17 +115,7 @@ namespace MauiApp1.ViewModels
             }
         }
 
-        [RelayCommand]
-        public void SendResultToCalculator(int targetCalculatorId)
-        {
-            var targetCalculator = _calculatorList.Calculators.FirstOrDefault(c => c.Id == targetCalculatorId);
-            if (targetCalculator != null && double.TryParse(ResultDisplay, out var result))
-            {
-                targetCalculator.Result = result;
-            }
-        }
-
-        private bool CanInsertDecimal(string expression)
+        bool CanInsertDecimal(string expression)
         {
             if (string.IsNullOrEmpty(expression))
             {
@@ -141,7 +131,7 @@ namespace MauiApp1.ViewModels
             var parts = Regex.Split(expression, @"[\+\-\*\/]");
             var lastNumber = parts.Last().Trim();
 
-            return !lastNumber.Contains(",");
+            return !lastNumber.Contains(",") && !lastNumber.Contains(".");
         }
 
         private string InsertCharacterAtPosition(string original, string character, int position)
@@ -162,7 +152,7 @@ namespace MauiApp1.ViewModels
                 }
                 catch
                 {
-                    ResultDisplay = "Format error";
+                    ResultDisplay = "Error";
                 }
             }
         }
