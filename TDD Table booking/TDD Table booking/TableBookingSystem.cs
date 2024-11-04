@@ -15,34 +15,34 @@ namespace TDD_Table_booking
             FourManTables = fourManTables;
         }
 
-        public bool BookTable(DateTime time, int guests)
+        public bool BookTable(DateTime time, int amountOfGuests)
         {
-            int requiredTwoManTables = 0;
-            int requiredFourManTables = 0;
+            int reservedTwoManTables = 0;
+            int reservedFourManTables = 0;
 
-            if (guests <= 2)
+            if (amountOfGuests <= 2)
             {
-                requiredTwoManTables = 1;
+                reservedTwoManTables = 1;
             }
-            else if (guests <= 4)
+            else if (amountOfGuests <= 4)
             {
-                requiredFourManTables = 1;
+                reservedFourManTables = 1;
             }
             else
             {
-                requiredFourManTables = guests / 4;
-                guests %= 4;
-                if (guests > 0)
+                reservedFourManTables = amountOfGuests / 4;
+                amountOfGuests %= 4;
+                if (amountOfGuests > 0)
                 {
-                    requiredTwoManTables = 1;
+                    reservedTwoManTables = 1;
                 }
             }
 
-            if (requiredTwoManTables <= TwoManTables && requiredFourManTables <= FourManTables)
+            if (reservedTwoManTables <= TwoManTables && reservedFourManTables <= FourManTables)
             {
-                bookings.Add(new Booking { Time = time, Guests = guests });
-                TwoManTables -= requiredTwoManTables;
-                FourManTables -= requiredFourManTables;
+                bookings.Add(new Booking { Time = time, Guests = amountOfGuests });
+                TwoManTables -= reservedTwoManTables;
+                FourManTables -= reservedFourManTables;
                 return true;
             }
 
