@@ -17,16 +17,35 @@ namespace TDD_Table_booking
 
         public bool BookTable(DateTime time, int amountOfGuests)
         {
+            if (time < DateTime.Now || amountOfGuests <= 0)
+            {
+                return false;
+            }
+
             int reservedTwoManTables = 0;
             int reservedFourManTables = 0;
 
             if (amountOfGuests <= 2)
             {
-                reservedTwoManTables = 1;
+                if (TwoManTables > 0)
+                {
+                    reservedTwoManTables = 1;
+                }
+                else if (FourManTables > 0)
+                {
+                    reservedFourManTables = 1;
+                }
             }
             else if (amountOfGuests <= 4)
             {
-                reservedFourManTables = 1;
+                if (FourManTables > 0)
+                {
+                    reservedFourManTables = 1;
+                }
+                else if (TwoManTables >= 2)
+                {
+                    reservedTwoManTables = 2;
+                }
             }
             else
             {
