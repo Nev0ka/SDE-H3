@@ -39,7 +39,7 @@ namespace TDD_Table_booking
             var bookingSystem = new TableBookingSystem();
             var bookingTimeForPartyOfOne = new DateTime(2025, 12, 3, 16, 0, 0);
             var bookingTimeForPartyOfFour = new DateTime(2025, 4, 3, 19, 0, 0);
-            bookingSystem.ConfigureTables(5, 3);
+            bookingSystem.ConfigureTables(1, 1);
 
             // Act
             var partyOfOne = bookingSystem.BookTable(bookingTimeForPartyOfOne, 1);
